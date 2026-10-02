@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureVault - Personal Expense & Info Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- AUTHENTICATION VIEW -->
+    <div id="auth-view" class="container">
+        <div class="card">
+            <!-- Login Form -->
+            <div id="login-form-container">
+                <div class="auth-header">
+                    <i class="fa-solid fa-vault"></i>
+                    <h1>Secure Vault</h1>
+                    <p>Enter your secret credentials to unlock your data</p>
+                </div>
+                <div id="login-error" class="error-msg"></div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Username or Gmail ID</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" id="loginUser" class="form-control" placeholder="username or gmail.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Secret Password</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="loginPass" class="form-control" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Unlock Secure Vault</button>
+                </form>
+                <div class="auth-switch">
+                    New user? <a href="#" onclick="toggleAuth(event)">Create Account</a>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form-container" class="hidden">
+                <div class="auth-header">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h1>Create Vault Account</h1>
+                    <p>Your data is securely isolated & protected</p>
+                </div>
+                <div id="register-error" class="error-msg"></div>
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label>Gmail / Email ID</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" id="regEmail" class="form-control" placeholder="yourname@gmail.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <input type="text" id="regUser" class="form-control" placeholder="Choose unique username" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Secret Password</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-key"></i>
+                            <input type="password" id="regPass" class="form-control" placeholder="Create secret password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Register & Encrypt</button>
+                </form>
+                <div class="auth-switch">
+                    Already have an account? <a href="#" onclick="toggleAuth(event)">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboard-view" class="hidden">
+        <div class="dashboard-layout">
+            <!-- Sidebar Navigation -->
+            <div class="sidebar">
+                <div>
+                    <div class="sidebar-profile">
+                        <h3 id="welcomeUser">User</h3>
+                        <p id="welcomeEmail">user@gmail.com</p>
+                    </div>
+                    <div class="nav-menu">
+                        <button class="nav-item active" onclick="switchTab('expenseTab', this)"><i class="fa-solid fa-wallet"></i> Expenses & Bills</button>
+                        <button class="nav-item" onclick="switchTab('notesTab', this)"><i class="fa-solid fa-note-sticky"></i> Personal Notes</button>
+                        <button class="nav-item" onclick="exportUserData()"><i class="fa-solid fa-download"></i> Backup Data</button>
+                    </div>
+                </div>
+                <button class="logout-sidebar-btn" onclick="handleLogout()"><i class="fa-solid fa-lock"></i> Lock & Logout</button>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- TAB 1: EXPENSE MANAGER -->
+                <div id="expenseTab">
+                    <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 20px; color: var(--text-main);">Expense & Budget Tracker</h2>
+                    
+                    <div class="balance-grid">
+                        <div class="stat-box balance">
+                            <p>Net Balance</p>
+                            <h3 id="totalBalance">₹0.00</h3>
+                        </div>
+                        <div class="stat-box income">
+                            <p>Total Income</p>
+                            <h3 id="totalIncome">₹0.00</h3>
+                        </div>
+                        <div class="stat-box expense">
+                            <p>Total Expense</p>
+                            <h3 id="totalExpense">₹0.00</h3>
+                        </div>
+                    </div>
+
+                    <div class="action-card">
+                        <h4>Add New Transaction</h4>
+                        <form class="expense-form" onsubmit="addTransaction(event)">
+                            <input type="text" id="transDesc" class="form-control" placeholder="Description (e.g., Grocery)" required>
+                            <input type="number" id="transAmount" class="form-control" placeholder="Amount (₹)" step="0.01" required>
+                            <select id="transCategory" class="form-control">
+                                <option value="Food & Dining">Food & Dining</option>
+                                <option value="Bills & Utilities">Bills & Utilities</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Salary / Income">Salary / Income</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <select id="transType" class="form-control">
+                                <option value="expense">Expense</option>
+                                <option value="income">Income</option>
+                            </select>
+                            <button type="submit" class="btn"><i class="fa-solid fa-plus"></i> Add</button>
+                        </form>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <h3 style="font-size: 16px; font-weight: 600; color: var(--text-main);">Transaction Log</h3>
+                        <span id="txCount" style="font-size: 12px; color: var(--text-muted);">0 items</span>
+                    </div>
+                    <ul id="expenseList" class="expense-list"></ul>
+                </div>
+
+                <!-- TAB 2: PERSONAL NOTES VAULT -->
+                <div id="notesTab" class="hidden">
+                    <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 20px; color: var(--text-main);">Personal Information Vault</h2>
+                    
+                    <div class="action-card">
+                        <h4>Add Private Note or Info</h4>
+                        <form onsubmit="addNote(event)" style="display: flex; flex-direction: column; gap: 12px;">
+                            <input type="text" id="noteTitle" class="form-control" placeholder="Note Title (e.g., Wifi Password, Bank PIN, Personal Goals)" required>
+                            <textarea id="noteContent" class="form-control" rows="3" placeholder="Write your private information here..." required style="resize: vertical;"></textarea>
+                            <button type="submit" class="btn" style="width: auto; align-self: flex-end; padding: 10px 20px;"><i class="fa-solid fa-shield-halved"></i> Save Secure Note</button>
+                        </form>
+                    </div>
+
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--text-main);">Saved Secure Notes</h3>
+                    <div id="notesGrid" class="notes-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC CONNECTED TO BACKEND -->
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const activeUser = localStorage.getItem('active_user');
+            if (activeUser) {
+                showDashboard(JSON.parse(activeUser));
+            }
+        });
+
+        function toggleAuth(e) {
+            e.preventDefault();
+            document.getElementById('login-form-container').classList.toggle('hidden');
+            document.getElementById('register-form-container').classList.toggle('hidden');
+            document.getElementById('login-error').style.display = 'none';
+            document.getElementById('register-error').style.display = 'none';
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const email = document.getElementById('regEmail').value.trim();
+            const username = document.getElementById('regUser').value.trim();
+            const password = document.getElementById('regPass').value;
+
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, username, password })
+                });
+                const data = await response.json();
+
+                if (!response.ok) {
+                    showError('register-error', data.error || 'Registration failed');
+                    return;
+                }
+
+                const userData = { id: data.userId, username: data.username, email: data.email, transactions: [], notes: [] };
+                loginUserSession(userData);
+            } catch (err) {
+                showError('register-error', 'Could not connect to backend server.');
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const query = document.getElementById('loginUser').value.trim();
+            const password = document.getElementById('loginPass').value;
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query, password })
+                });
+                const data = await response.json();
+
+                if (!response.ok) {
+                    showError('login-error', data.error || 'Invalid credentials');
+                    return;
+                }
+
+                const fullUser = {
+                    ...data.user,
+                    transactions: data.transactions,
+                    notes: data.notes
+                };
+
+                loginUserSession(fullUser);
+            } catch (err) {
+                showError('login-error', 'Could not connect to backend server.');
+            }
+        }
+
+        function loginUserSession(user) {
+            localStorage.setItem('active_user', JSON.stringify(user));
+            showDashboard(user);
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('active_user');
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('auth-view').classList.remove('hidden');
+            document.getElementById('loginForm').reset();
+            document.getElementById('registerForm').reset();
+        }
+
+        function showError(elementId, msg) {
+            const errBox = document.getElementById(elementId);
+            errBox.innerText = msg;
+            errBox.style.display = 'block';
+        }
+
+        function showDashboard(user) {
+            document.getElementById('auth-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            document.getElementById('welcomeUser').innerText = user.username;
+            document.getElementById('welcomeEmail').innerText = user.email;
+            updateDashboardData();
+            renderNotes();
+        }
+
+        function getActiveUser() {
+            return JSON.parse(localStorage.getItem('active_user'));
+        }
+
+        function saveActiveUser(user) {
+            localStorage.setItem('active_user', JSON.stringify(user));
+        }
+
+        function switchTab(tabId, btn) {
+            document.getElementById('expenseTab').classList.add('hidden');
+            document.getElementById('notesTab').classList.add('hidden');
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+        }
+
+        // Transactions Backend Integration
+        async function addTransaction(e) {
+            e.preventDefault();
+            const user = getActiveUser();
+            const desc = document.getElementById('transDesc').value.trim();
+            const amount = parseFloat(document.getElementById('transAmount').value);
+            const category = document.getElementById('transCategory').value;
+            const type = document.getElementById('transType').value;
+            const date = new Date().toLocaleDateString();
+
+            const response = await fetch(`${API_URL}/transactions`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: user.id, desc, amount, category, type, date })
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                user.transactions.unshift({ id: data.id, userId: user.id, desc, amount, category, type, date });
+                saveActiveUser(user);
+                document.getElementById('transDesc').value = '';
+                document.getElementById('transAmount').value = '';
+                updateDashboardData();
+            }
+        }
+
+        async function deleteTransaction(id) {
+            const user = getActiveUser();
+            const response = await fetch(`${API_URL}/transactions/${id}`, { method: 'DELETE' });
+            if (response.ok) {
+                user.transactions = user.transactions.filter(t => t.id !== id);
+                saveActiveUser(user);
+                updateDashboardData();
+            }
+        }
+
+        function updateDashboardData() {
+            const user = getActiveUser();
+            const listEl = document.getElementById('expenseList');
+            listEl.innerHTML = '';
+
+            let totalIncome = 0;
+            let totalExpense = 0;
+
+            document.getElementById('txCount').innerText = `${user.transactions.length} items`;
+
+            if (user.transactions.length === 0) {
+                listEl.innerHTML = '<p style="text-align:center; color: var(--text-muted); padding: 30px;">No transactions recorded yet.</p>';
+            }
+
+            user.transactions.forEach(t => {
+                if (t.type === 'income') totalIncome += t.amount;
+                else totalExpense += t.amount;
+
+                const li = document.createElement('li');
+                li.className = 'expense-item';
+                li.innerHTML = `
+                    <div class="expense-info">
+                        <h4>${t.desc}</h4>
+                        <div>
+                            <span class="badge">${t.category}</span>
+                            <span>${t.date}</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <span class="expense-amount ${t.type}">
+                            ${t.type === 'income' ? '+' : '-'}₹${t.amount.toFixed(2)}
+                        </span>
+                        <button class="delete-btn" onclick="deleteTransaction(${t.id})"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+                listEl.appendChild(li);
+            });
+
+            const totalBalance = totalIncome - totalExpense;
+            document.getElementById('totalBalance').innerText = `₹${totalBalance.toFixed(2)}`;
+            document.getElementById('totalIncome').innerText = `₹${totalIncome.toFixed(2)}`;
+            document.getElementById('totalExpense').innerText = `₹${totalExpense.toFixed(2)}`;
+        }
+
+        // Notes Backend Integration
+        async function addNote(e) {
+            e.preventDefault();
+            const user = getActiveUser();
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('noteContent').value.trim();
+            const date = new Date().toLocaleDateString();
+
+            const response = await fetch(`${API_URL}/notes`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: user.id, title, content, date })
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                if(!user.notes) user.notes = [];
+                user.notes.unshift({ id: data.id, userId: user.id, title, content, date });
+                saveActiveUser(user);
+                document.getElementById('noteTitle').value = '';
+                document.getElementById('noteContent').value = '';
+                renderNotes();
+            }
+        }
+
+        async function deleteNote(id) {
+            const user = getActiveUser();
+            const response = await fetch(`${API_URL}/notes/${id}`, { method: 'DELETE' });
+            if (response.ok) {
+                user.notes = user.notes.filter(n => n.id !== id);
+                saveActiveUser(user);
+                renderNotes();
+            }
+        }
+
+        function renderNotes() {
+            const user = getActiveUser();
+            const gridEl = document.getElementById('notesGrid');
+            gridEl.innerHTML = '';
+
+            if (!user.notes || user.notes.length === 0) {
+                gridEl.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: var(--text-muted); padding: 30px;">No personal notes saved yet.</p>';
+                return;
+            }
+
+            user.notes.forEach(n => {
+                const card = document.createElement('div');
+                card.className = 'note-card';
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                        <h4>${n.title}</h4>
+                        <button class="delete-btn" onclick="deleteNote(${n.id})" style="margin-top:-2px;"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <p>${n.content}</p>
+                    <div class="note-footer">
+                        <span><i class="fa-regular fa-clock"></i> ${n.date}</span>
+                        <span>Server Secure</span>
+                    </div>
+                `;
+                gridEl.appendChild(card);
+            });
+        }
+
+        function exportUserData() {
+            const user = getActiveUser();
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(user, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `${user.username}_vault_backup.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+    </script>
+</body>
+</html>

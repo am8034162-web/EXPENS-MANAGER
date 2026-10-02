@@ -1,0 +1,440 @@
+:root {
+    --primary: #10b981;
+    --primary-hover: #059669;
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --danger: #f43f5e;
+    --success: #34d399;
+    --warning: #fbbf24;
+    --input-bg: #0f172a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 440px;
+    margin: auto;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.3);
+    padding: 36px;
+    width: 100%;
+    border: 1px solid var(--border);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.auth-header i {
+    font-size: 48px;
+    color: var(--primary);
+    margin-bottom: 12px;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 16px;
+    border-radius: 50%;
+}
+
+.auth-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.auth-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-muted);
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+    background: var(--input-bg);
+    color: var(--text-main);
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+select.form-control {
+    padding-left: 14px;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary);
+    color: #0f172a;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+    background-color: var(--primary-hover);
+    color: #ffffff;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.auth-switch a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+.error-msg {
+    background-color: rgba(244, 63, 94, 0.15);
+    color: var(--danger);
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    text-align: center;
+    display: none;
+    font-weight: 500;
+    border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+/* PROFESSIONAL DASHBOARD LAYOUT */
+#dashboard-view {
+    max-width: 1100px;
+    width: 100%;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+}
+
+@media(max-width: 768px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sidebar {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar-profile h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.sidebar-profile p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    word-break: break-all;
+}
+
+.nav-menu {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-item {
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s;
+}
+
+.nav-item:hover, .nav-item.active {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--primary);
+}
+
+.logout-sidebar-btn {
+    background: rgba(244, 63, 94, 0.1);
+    color: var(--danger);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+    margin-top: 20px;
+}
+
+.logout-sidebar-btn:hover {
+    background: rgba(244, 63, 94, 0.2);
+}
+
+.main-content {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2);
+    border: 1px solid var(--border);
+    min-height: 550px;
+}
+
+/* STATS GRID */
+.balance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-box {
+    background: var(--input-bg);
+    padding: 18px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+}
+
+.stat-box p {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.stat-box h3 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.stat-box.income h3 { color: var(--success); }
+.stat-box.expense h3 { color: var(--danger); }
+.stat-box.balance h3 { color: var(--primary); }
+
+/* FORMS & ACTIONS */
+.action-card {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+}
+
+.action-card h4 {
+    font-size: 15px;
+    margin-bottom: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.expense-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 10px;
+}
+
+@media (max-width: 900px) {
+    .expense-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* TRANSACTION LIST */
+.expense-list {
+    list-style: none;
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.expense-info h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.expense-info span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.badge {
+    background: #334155;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-right: 8px;
+}
+
+.expense-amount {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.expense-amount.income { color: var(--success); }
+.expense-amount.expense { color: var(--danger); }
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin-left: 12px;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.delete-btn:hover {
+    color: var(--danger);
+}
+
+/* NOTES MODULE */
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.note-card {
+    background: #111827;
+    border: 1px solid #374151;
+    padding: 18px;
+    border-radius: 14px;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.note-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #34d399;
+    margin-bottom: 8px;
+}
+
+.note-card p {
+    font-size: 13px;
+    color: #d1d5db;
+    white-space: pre-wrap;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.note-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #6b7280;
+    border-top: 1px solid #1f2937;
+    padding-top: 8px;
+}
+
+.hidden {
+    display: none !important;
+}
